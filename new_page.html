@@ -4,8 +4,214 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>07.02.01 Bistro Babushka</title>
-    <link rel="stylesheet" href="style.css">
+    <title>07.02.01 Bistro Babushka new-page</title>
+    <link rel="stylesheet" href="">
+    <style>
+        /******* GENERELLE INDSTILLINGER *******/
+        @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,700,700i&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        img {
+            object-fit: cover;
+            max-width: 100%;
+        }
+
+        h1,
+        h2,
+        h3,
+        p,
+        a {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        p {
+            font-weight: 300;
+        }
+
+        /******* GENERELLE INDSTILLINGER SLUT *******/
+
+
+
+        /******* HEADER & FOOTER INDSTILLINGER *******/
+        header {
+            margin-bottom: 75px;
+            width: 100%;
+            height: 100px;
+            text-align: center;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+
+        footer {
+            margin-top: 50px;
+            width: 100%;
+            height: 75px;
+            text-align: center;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        /******* HEADER & FOOTER INDSTILLINGER SLUT *******/
+
+
+        /******* OVERSIGT INDSTILLINGER *******/
+        #oversigt {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #oversigt h2 {
+            margin: 0;
+        }
+
+        #oversigt button {
+            min-width: 50px;
+            height: 25px;
+            text-align: center;
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            font-size: .9rem;
+            transition: .3s;
+            color: #333;
+        }
+
+        #oversigt button:hover,
+        #oversigt .valgt {
+            background-color: #333;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        #oversigt button:focus {
+            outline: 0;
+        }
+
+        /******* OVERSIGT INDSTILLINGER SLUT *******/
+
+
+        /******* RETTER INDSTILLINGER *******/
+        #container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-column-gap: 15px;
+            grid-row-gap: 15px;
+        }
+
+        .ret {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px 10px 0 10px;
+            max-height: 420px;
+            transition: .3s;
+            cursor: pointer;
+        }
+
+        .ret:hover {
+            transform: scale(1.04);
+            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        .ret p,
+        .ret h2,
+        .ret img {
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .ret p:last-child {
+            padding-bottom: 25px;
+        }
+
+        /******* RETTER INDSTILLINGER SLUT *******/
+
+
+        /******* POP-UP INDSTILLINGER *******/
+        #detalje {
+            overflow: scroll;
+            position: fixed;
+            width: 100vw;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .5);
+            z-index: 10;
+            left: 0;
+            top: 0;
+        }
+
+        #ret-detalje {
+            margin: 6em;
+            margin-top: 10%;
+            padding: 2em;
+            background-color: #fff;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: row;
+        }
+
+        .ret-beskrivelse {
+            flex-basis: 50%;
+            flex-grow: 1;
+            padding-left: 15px;
+        }
+
+        #detalje img {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            max-width: 40vw;
+            flex-basis: 50%;
+            flex-grow: 1;
+        }
+
+        #detalje button {
+            position: fixed;
+            right: 8%;
+            font-size: 1.5rem;
+            max-height: 30px;
+            max-width: 30px;
+            display: flex;
+            justify-content: center;
+            border: none;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .skjul {
+            display: none;
+        }
+
+        #detalje button:focus {
+            outline: 0;
+        }
+
+        /******* POP-UP INDSTILLINGER SLUT *******/
+
+    </style>
 </head>
 
 <body>
@@ -29,7 +235,7 @@
 
     <section id="container"></section>
     <template>
-        <article>
+        <article id="" class="ret">
             <img src="" alt="">
             <h2></h2>
             <p></p>
@@ -44,6 +250,7 @@
 
     <script>
         const endpoint = "https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json";
+
         let retter = [];
         let filterKnap = document.querySelectorAll(".filter");
         let kategori = "alle";
@@ -96,11 +303,18 @@
                     klon.querySelector("img").src = `imgs/small/${ret.gsx$billede.$t}-sm.jpg`;
                     klon.querySelector("p").textContent += ret.gsx$kort.$t;
                     klon.querySelector("p:last-child").textContent += ret.gsx$pris.$t + ",-";
+                    klon.querySelector(".ret").addEventListener("click", () => {
+                        location.href = `detalje.html?id=${ret.gsx$id.$t}`;
+                    });
+
                     container.appendChild(klon);
                 }
 
             });
 
         }
+
     </script>
-</body></html>
+</body>
+
+</html>

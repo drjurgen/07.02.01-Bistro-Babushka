@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07.02.01 Bistro Babushka new-page</title>
+    <link rel="stylesheet" href="">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,700,700i&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        img {
+            object-fit: cover;
+            max-width: 100%;
+        }
+
+        h1,
+        h2,
+        h3,
+        p,
+        a {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        p {
+            font-weight: 300;
+        }
+
+
+        button:focus {
+            outline: 0;
+        }
+
+        #detalje {
+            overflow: scroll;
+            position: fixed;
+            width: 100vw;
+            height: 100%;
+            z-index: 10;
+            left: 0;
+            top: 0;
+        }
+
+        #ret-detalje {
+            margin: 6em;
+            margin-top: 10%;
+            padding: 2em;
+            background-color: #fff;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: row;
+        }
+
+        .ret-beskrivelse {
+            flex-basis: 50%;
+            flex-grow: 1;
+            padding-left: 15px;
+        }
+
+        #detalje img {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            max-width: 40vw;
+            flex-basis: 50%;
+            flex-grow: 1;
+        }
+
+        #detalje button {
+            position: fixed;
+            right: 8%;
+            font-size: 1rem;
+            height: 35px;
+            max-width: 175px;
+            display: flex;
+            justify-content: center;
+            border: none;
+
+            background-color: #333;
+            cursor: pointer;
+            color: #fff;
+            transition: .3s;
+        }
+
+        #detalje button:hover {
+            height: 35px;
+            max-width: 175px;
+            background-color: white;
+            color: #333;
+            border: 2px #333 solid;
+        }
+
+        .skjul {
+            display: none;
+        }
+
+        #detalje button:focus {
+            outline: 0;
+        }
+
+
+        /******* HEADER & FOOTER INDSTILLINGER *******/
+        header {
+            margin-bottom: 75px;
+            width: 100%;
+            height: 100px;
+            text-align: center;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+
+        footer {
+            bottom: 0;
+            position: absolute;
+            width: 100%;
+            height: 75px;
+            text-align: center;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        /******* HEADER & FOOTER INDSTILLINGER SLUT *******/
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>BISTRO BABUSHKA</h1>
+    </header>
+
+    <section id="detalje" class="skjul">
+        <article id="ret-detalje">
+            <button id="fjern-detalje">TILBAGE TIL MENUEN</button>
+            <img src="" alt="">
+            <div class="ret-beskrivelse">
+                <h1></h1>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+            </div>
+        </article>
+    </section>
+
+    <footer>
+        <p>© 2020 All Rights Reserved - Bistro Babushka</p>
+    </footer>
+
+
+    <script>
+        const endpoint = "https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json";
+        const detalje = document.querySelector("#detalje");
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get("id");
+
+        let retter = [];
+        document.addEventListener("DOMContentLoaded", start);
+
+
+        function start() {
+            hentData();
+        }
+
+        async function hentData() {
+            const response = await fetch(endpoint);
+            personer = await response.json();
+            console.log(personer);
+            visRetter();
+        }
+
+        function visRetter() {
+            personer.feed.entry.forEach(ret => {
+                if (ret.gsx$id.$t == id) {
+                    document.title = "Restaurent Babushka - " + ret.gsx$navn.$t;
+
+                    detalje.classList.remove("skjul");
+                    detalje.querySelector("button").addEventListener("click", () => detalje.classList.add("skjul"));
+                    console.log(ret.gsx$navn.$t);
+                    detalje.querySelector("h1").textContent = ret.gsx$navn.$t;
+                    detalje.querySelector("p").textContent = "Oprindelse: " + ret.gsx$oprindelse.$t;
+                    detalje.querySelector("p + p").textContent = "Kategori: " + ret.gsx$kategori.$t;
+                    detalje.querySelector("p + p + p").textContent = ret.gsx$lang.$t;
+                    detalje.querySelector("p:last-child").textContent = "pris: " + ret.gsx$pris.$t + ",-";
+                    detalje.querySelector("img").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
+                    detalje.querySelector("img").alt = "Retten: " + ret.gsx$navn.$t;
+
+                    detalje.querySelector("#fjern-detalje").addEventListener("click", () => {
+                        history.back();
+                    });
+                }
+            });
+
+        }
+    </script>
+</body></html>
