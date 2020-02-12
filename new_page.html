@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07.02.01 Bistro Babushka</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>BISTRO BABUSHKA</h1>
+    </header>
+
+    <section id="oversigt">
+        <h2>VORES MAD</h2>
+        <div>
+            <p><i>filtrer efter:</i>
+                <button class="filter valgt" data-kategori="alle">Alle</button>
+                <button class="filter" data-kategori="forretter">Forretter</button>
+                <button class="filter" data-kategori="hovedretter">Hovedretter</button>
+                <button class="filter" data-kategori="desserter">Desserter</button>
+                <button class="filter" data-kategori="drikkevarer">Drikkevarer</button>
+            </p>
+        </div>
+    </section>
+
+
+    <section id="container"></section>
+    <template>
+        <article>
+            <img src="" alt="">
+            <h2></h2>
+            <p></p>
+            <p>Pris: </p>
+        </article>
+    </template>
+
+    <footer>
+        <p>© 2020 All Rights Reserved - Bistro Babushka</p>
+    </footer>
+
+
+    <script>
+        const endpoint = "https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json";
+        let retter = [];
+        let filterKnap = document.querySelectorAll(".filter");
+        let kategori = "alle";
+
+
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+            hentData();
+
+            filterKnap.forEach(knap => {
+                knap.addEventListener("click", filtrering);
+            });
+
+        }
+
+        async function hentData() {
+            const response = await fetch(endpoint);
+            retter = await response.json();
+            console.log(retter);
+            visRetter();
+        }
+
+        function filtrering() {
+            filterKnap.forEach(knap => {
+                knap.classList.remove("valgt");
+            });
+
+            this.classList.add("valgt");
+
+            kategori = this.dataset.kategori;
+            console.log(kategori);
+
+            visRetter();
+
+        }
+
+
+        function visRetter() {
+            let container = document.querySelector("#container");
+            let retTemplate = document.querySelector("template");
+            let article = document.querySelector("article");
+
+            container.innerHTML = "";
+
+            retter.feed.entry.forEach(ret => {
+                if (kategori == "alle" || ret.gsx$kategori.$t == kategori) {
+                    let klon = retTemplate.cloneNode(true).content;
+                    klon.querySelector("h2").textContent = ret.gsx$navn.$t;
+                    klon.querySelector("img").src = `imgs/small/${ret.gsx$billede.$t}-sm.jpg`;
+                    klon.querySelector("p").textContent += ret.gsx$kort.$t;
+                    klon.querySelector("p:last-child").textContent += ret.gsx$pris.$t + ",-";
+                    container.appendChild(klon);
+                }
+
+            });
+
+        }
+    </script>
+</body></html>

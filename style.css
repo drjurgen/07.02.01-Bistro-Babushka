@@ -1,5 +1,4 @@
 /******* GENERELLE INDSTILLINGER *******/
-
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,700,700i&display=swap');
 
 * {
@@ -8,11 +7,6 @@
 
 body {
     margin: 0;
-}
-
-article {
-    /*    border: 1px solid black;*/
-    cursor: pointer;
 }
 
 img {
@@ -117,31 +111,93 @@ footer {
     grid-row-gap: 15px;
 }
 
-article {
+.ret {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 20px 10px 0 10px;
     max-height: 420px;
     transition: .3s;
+    cursor: pointer;
 }
 
-article:hover {
+.ret:hover {
     transform: scale(1.04);
     box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
 }
 
 
 
-article p,
-article h2,
-article img {
+.ret p,
+.ret h2,
+.ret img {
     text-align: center;
     margin: 5px 0;
 }
 
-article p:last-child {
+.ret p:last-child {
     padding-bottom: 25px;
 }
 
 /******* RETTER INDSTILLINGER SLUT *******/
+
+
+/******* POP-UP INDSTILLINGER *******/
+#detalje {
+    overflow: scroll;
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 10;
+    left: 0;
+    top: 0;
+}
+
+#ret-detalje {
+    margin: 6em;
+    margin-top: 10%;
+    padding: 2em;
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.ret-beskrivelse {
+    flex-basis: 50%;
+    flex-grow: 1;
+    padding-left: 15px;
+}
+
+#detalje img {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    max-width: 40vw;
+    flex-basis: 50%;
+    flex-grow: 1;
+}
+
+#detalje button {
+    position: fixed;
+    right: 8%;
+    font-size: 1.5rem;
+    max-height: 30px;
+    max-width: 30px;
+    display: flex;
+    justify-content: center;
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.skjul {
+    display: none;
+}
+
+#detalje button:focus {
+    outline: 0;
+}
+
+/******* POP-UP INDSTILLINGER SLUT *******/
