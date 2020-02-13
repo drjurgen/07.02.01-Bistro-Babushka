@@ -138,6 +138,7 @@
         }
 
         /******* HEADER & FOOTER INDSTILLINGER SLUT *******/
+
     </style>
 </head>
 
@@ -181,13 +182,13 @@
 
         async function hentData() {
             const response = await fetch(endpoint);
-            personer = await response.json();
-            console.log(personer);
+            retter = await response.json();
+            console.log(retter);
             visRetter();
         }
 
         function visRetter() {
-            personer.feed.entry.forEach(ret => {
+            retter.feed.entry.forEach(ret => {
                 if (ret.gsx$id.$t == id) {
                     document.title = "Restaurent Babushka - " + ret.gsx$navn.$t;
 
@@ -209,5 +210,8 @@
             });
 
         }
+
     </script>
-</body></html>
+</body>
+
+</html>

@@ -189,7 +189,7 @@
         }
 
         #detalje button {
-            position: fixed;
+            position: absolute;
             right: 8%;
             font-size: 1.5rem;
             max-height: 30px;
@@ -342,7 +342,7 @@
             detalje.querySelector("p").textContent = "Oprindelse: " + ret.gsx$oprindelse.$t;
             detalje.querySelector("p + p").textContent = "Kategori: " + ret.gsx$kategori.$t;
             detalje.querySelector("p + p + p").textContent = ret.gsx$lang.$t;
-            detalje.querySelector("p:last-child").textContent = "pris: " + ret.gsx$pris.$t + ",-";
+            detalje.querySelector("p:last-child").textContent = "Pris: " + ret.gsx$pris.$t + ",-";
             detalje.querySelector("img").src = `imgs/large/${ret.gsx$billede.$t}.jpg`;
             detalje.querySelector("img").alt = "Retten: " + ret.gsx$navn.$t;
         }
